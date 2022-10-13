@@ -1,7 +1,24 @@
+const Course = require('../models/Courses');
+
 class SiteController {
     // [GET] /
-    index(req, res) {
-        res.render('home');
+    index(req, res, next) {
+        Course.find({})
+            .then((courses) => {
+                courses = courses.map((courses) => courses.toObject());
+                res.render('home', { courses });
+            }) // Promises
+            .catch(next);
+
+        // Course.find({}, function(err, courses){
+        //     if(!err) {
+        //         res.json(courses);
+        //     } else {                                // Callbacks
+        //         next(err);
+        //     }
+        // });
+
+        // res.render('home');
     }
 
     // [GET] /search
